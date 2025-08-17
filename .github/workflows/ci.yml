@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [ '**' ]
+    paths:
+      - 'src/GK.Talks.Api/**'
+      - 'src/GK.Talks.Application/**'
+      - 'src/GK.Talks.Infrastructure/**'
+      - 'src/GK.Talks.Domain/**'
+      - 'src/GK.Talks.Service/**'
+      - 'tests/GK.Talks.Tests/**'
+      - 'GK.Talks.sln'
+  pull_request:
+    branches: [ '**' ]
+    paths:
+      - 'src/GK.Talks.Api/**'
+      - 'src/GK.Talks.Application/**'
+      - 'src/GK.Talks.Infrastructure/**'
+      - 'src/GK.Talks.Domain/**'
+      - 'src/GK.Talks.Service/**'
+      - 'tests/GK.Talks.Tests/**'
+      - 'GK.Talks.sln'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 9.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore GK.Talks.sln
+
+    - name: Build
+      run: dotnet build GK.Talks.sln --no-restore --configuration Release
+
+    - name: Run dotnet format (code style & lint)
+      run: dotnet format GK.Talks.sln --verify-no-changes --severity info
+      continue-on-error: true
+
+    - name: Run CodeQL static analysis
+      uses: github/codeql-action/init@v3
+      with:
+        languages: csharp
+
+    - name: Dependency Review
+      uses: actions/dependency-review-action@v4
+      if: github.event_name == 'pull_request'
+    
+    - name: Run Backend Tests
+      run: dotnet test tests/GK.Talks.Tests/GK.Talks.Tests.csproj --no-build --configuration Release --verbosity normal --logger "trx;LogFileName=backend-test-results.trx" --results-directory ./TestResultsForUpload
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: backend-test-results
+        path: TestResultsForUpload/
