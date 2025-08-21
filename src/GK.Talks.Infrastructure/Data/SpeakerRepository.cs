@@ -3,7 +3,7 @@ using GK.Talks.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace GK.Talks.Infrastructure.Data;
-internal class SpeakerRepository(AppDbContext db) : IRepository<Speaker>
+public class SpeakerRepository(AppDbContext db) : IRepository<Speaker>
 {
     private readonly AppDbContext _db = db;
 

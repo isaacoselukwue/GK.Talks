@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace GK.Talks.Application.Services;
 
-internal class SpeakerRegistrationService(
+public class SpeakerRegistrationService(
     IRepository<Speaker> speakerRepository,
     IEnumerable<ISpeakerQualificationStrategy> qualificationStrategies,
     IRegistrationFeeCalculator feeCalculator,

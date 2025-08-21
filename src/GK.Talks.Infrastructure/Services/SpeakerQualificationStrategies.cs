@@ -26,31 +26,32 @@ public class EmployerQualificationStrategy(IOptions<RegistrationRulesOptions> op
         !string.IsNullOrWhiteSpace(speaker.Employer) && _allowed.Contains(speaker.Employer);
 }
 
-internal class EmailAndBrowserQualificationStrategy : ISpeakerQualificationStrategy
+public class EmailAndBrowserQualificationStrategy : ISpeakerQualificationStrategy
 {
     private readonly HashSet<string> _blocked;
     private readonly int _minIe;
 
     public EmailAndBrowserQualificationStrategy(IOptions<RegistrationRulesOptions> options)
     {
-        _blocked = options.Value.BlockedEmailDomains ?? new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        _minIe = options.Value.MinimumInternetExplorerMajorVersion;
+        var blocked = options?.Value?.BlockedEmailDomains ?? System.Linq.Enumerable.Empty<string>();
+        _blocked = new HashSet<string>(blocked.Select(d => (d ?? string.Empty).Trim()), StringComparer.OrdinalIgnoreCase);
+        _minIe = options?.Value?.MinimumInternetExplorerMajorVersion ?? 0;
     }
 
     public bool IsQualified(Speaker speaker)
     {
         if (speaker?.Email == null) return false;
 
-        var email = speaker.Email.ToString();
-        var parts = email.Split('@', StringSplitOptions.RemoveEmptyEntries);
+        string email = speaker.Email.Address;
+        string[] parts = email.Split('@', StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length < 2) return false;
-        var domain = parts[^1];
+        string domain = parts[^1].Trim();
 
-        var domainAllowed = !_blocked.Contains(domain);
+        bool domainAllowed = !_blocked.Contains(domain);
 
         var browser = speaker.Browser;
-        var browserOk = true;
-        if (browser != null)
+        bool browserOk = true;
+        if (browser is not null)
         {
             if (string.Equals(browser.Name.ToString(), "InternetExplorer", StringComparison.OrdinalIgnoreCase)
                 && browser.MajorVersion < _minIe)

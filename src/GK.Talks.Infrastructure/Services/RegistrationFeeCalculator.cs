@@ -1,10 +1,4 @@
 ﻿using GK.Talks.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GK.Talks.Infrastructure.Services;
 public class RegistrationFeeCalculator : IRegistrationFeeCalculator
 {

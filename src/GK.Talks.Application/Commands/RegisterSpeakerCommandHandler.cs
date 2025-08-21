@@ -15,4 +15,6 @@ public class RegisterSpeakerCommandHandler(
 public class RegistrationRulesOptions
 {
     public List<string> OutdatedTechnologies { get; set; } = [];
+    public int MinimumInternetExplorerMajorVersion { get; set; }
+    public List<string> BlockedEmailDomains { get; set; } = [];
 }
