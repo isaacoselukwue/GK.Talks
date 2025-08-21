@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace GK.Talks.Core.DomainEvents;
-internal class SpeakerRegisteredEvent
-{
-}
+public record SpeakerRegisteredEvent(int SpeakerId, int RegistrationFee, string Message) : INotification;

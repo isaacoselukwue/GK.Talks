@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GK.Talks.Core.Interfaces;
-internal interface IRepository
+﻿namespace GK.Talks.Core.Interfaces;
+public interface IRepository<T> where T : class
 {
+    Task<T?> GetByIdAsync(int id);
+    Task<T?> GetByEmailAsync(string email);
+    IQueryable<T> GetAll();
+    Task<T> AddAsync(T entity);
+    Task SaveChangesAsync();
 }
