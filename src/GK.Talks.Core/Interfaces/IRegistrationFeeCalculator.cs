@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GK.Talks.Core.Interfaces;
-internal interface IRegistrationFeeCalculator
+﻿namespace GK.Talks.Core.Interfaces;
+public interface IRegistrationFeeCalculator
 {
+    int CalculateFee(int experienceInYears);
 }
