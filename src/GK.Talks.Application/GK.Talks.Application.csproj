@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GK.Talks.Core\GK.Talks.Core.csproj" />
+    <ProjectReference Include="..\GK.Talks.Infrastructure\GK.Talks.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
