@@ -4,6 +4,7 @@ using GK.Talks.Core.Aggregates.SpeakerAggregate;
 using GK.Talks.Core.DomainEvents;
 using GK.Talks.Core.Interfaces;
 using GK.Talks.Core.ValueObjects;
+using GK.Talks.Infrastructure.Configuration;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System.Text.RegularExpressions;

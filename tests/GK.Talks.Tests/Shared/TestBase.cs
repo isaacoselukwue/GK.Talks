@@ -2,6 +2,7 @@
 using GK.Talks.Core.Aggregates.SpeakerAggregate;
 using GK.Talks.Core.Interfaces;
 using GK.Talks.Core.ValueObjects;
+using GK.Talks.Infrastructure.Configuration;
 using GK.Talks.Infrastructure.Data;
 using MediatR;
 using Microsoft.Data.Sqlite;
@@ -29,9 +30,9 @@ public abstract class TestBase
         QualificationStrategies = new List<ISpeakerQualificationStrategy>();
         RulesOptions = new RegistrationRulesOptions
         {
-            OutdatedTechnologies = new List<string>(),
+            OutdatedTechnologies = [],
             MinimumInternetExplorerMajorVersion = 9,
-            BlockedEmailDomains = new List<string>()
+            BlockedEmailDomains = []
         };
     }
 
